@@ -22,12 +22,12 @@ export interface ITransactionAPI {
 
 export interface ICategory {
     id: string,
-    type: "income" | "expense",
+    type: string,
     name: string
 }
 
 export interface ICategoryMutation {
-    type: "income" | "expense",
+    type: string,
     name: string
 }
 

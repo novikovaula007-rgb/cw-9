@@ -11,7 +11,7 @@ interface Props extends React.PropsWithChildren{
 
 const Modal: React.FC<Props> = ({show, title, onClose, children}) => {
     return (
-        <Dialog open={show} onClose={onClose} fullWidth maxWidth="xs">
+        <Dialog open={show} onClose={onClose} fullWidth maxWidth="xs" >
             <DialogTitle>
                 {title}
                 {(
@@ -28,7 +28,7 @@ const Modal: React.FC<Props> = ({show, title, onClose, children}) => {
                     </IconButton>
                 )}
             </DialogTitle>
-            <DialogContent dividers>
+            <DialogContent sx={{marginBottom: '15px'}}>
                 {children}
             </DialogContent>
         </Dialog>
