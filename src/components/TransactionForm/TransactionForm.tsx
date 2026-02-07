@@ -25,18 +25,19 @@ const initialForm = {
 interface Props {
     isEditing?: boolean,
     initialValueForm?: ITransactionForm | undefined,
+    transactionType?: string,
     transactionID?: string,
     onClose: () => void,
 }
 
-const TransactionForm: React.FC<Props> = ({isEditing = false, initialValueForm = initialForm, transactionID, onClose}) => {
+const TransactionForm: React.FC<Props> = ({isEditing = false, initialValueForm = initialForm, transactionID, onClose, transactionType = null}) => {
     const [form, setForm] = useState<ITransactionForm>(initialValueForm);
     const [loading, setLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const transactions = useAppSelector(selectAllTransactions);
     const categories = useAppSelector((state) => state.categories.categories);
 
-    const [typeOfTransaction, setTypeOfTransaction] = useState<string | null>(null)
+    const [typeOfTransaction, setTypeOfTransaction] = useState<string | null>(transactionType)
     const filteredCategories = categories.filter(category => category.type === typeOfTransaction);
 
     const onChangeField = (event:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | SelectChangeEvent) => {
@@ -87,6 +88,7 @@ const TransactionForm: React.FC<Props> = ({isEditing = false, initialValueForm =
             setLoading(false);
         }
     }
+
     return (
         <form onSubmit={onSubmit}>
             <Grid container spacing={2} sx={{mx: 'auto', width: '80%'}}>
@@ -101,7 +103,7 @@ const TransactionForm: React.FC<Props> = ({isEditing = false, initialValueForm =
                             disabled={loading}
                             label="Type"
                             name="type"
-                            value={typeOfTransaction}
+                            value={typeOfTransaction || ''}
                             onChange={(e) => setTypeOfTransaction(e.target.value)}
                         >
                             <MenuItem value="income">Income</MenuItem>
