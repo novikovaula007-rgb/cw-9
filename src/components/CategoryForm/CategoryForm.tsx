@@ -14,6 +14,8 @@ import React from "react";
 import {axiosAPI} from "../../axiosAPI.ts";
 import {toast} from "react-toastify";
 import type {ICategoryMutation} from "../../types";
+import {useAppDispatch} from "../../app/hooks.ts";
+import {fetchAllCategories} from "../../app/features/categoriesSlice.ts";
 
 const initialForm = {
     type: '',
@@ -22,14 +24,15 @@ const initialForm = {
 
 interface Props {
     isEditing?: boolean,
-    initialValueForm?: ICategoryMutation,
+    initialValueForm?: ICategoryMutation | undefined,
     categoryID?: string,
     onClose: () => void,
 }
 
 const CategoryForm: React.FC<Props> = ({isEditing = false, initialValueForm = initialForm, categoryID, onClose}) => {
-    const [form, setForm] = useState<ICategoryMutation>(initialValueForm)
-    const [loading, setLoading] = useState<boolean>(false)
+    const [form, setForm] = useState<ICategoryMutation>(initialValueForm);
+    const [loading, setLoading] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     const onChangeField = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | SelectChangeEvent) => {
         const {name, value} = event.target;
@@ -52,13 +55,15 @@ const CategoryForm: React.FC<Props> = ({isEditing = false, initialValueForm = in
                 }
                 toast.success(`Category ${isEditing ? 'edited' : 'added'} successfully!`);
                 setForm(initialForm);
+                dispatch(fetchAllCategories());
+                onClose();
             } else {
-                toast.error('You have not filled in all the required fields.')
+                toast.error('You have not filled in all the required fields.');
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
     return (
@@ -104,7 +109,6 @@ const CategoryForm: React.FC<Props> = ({isEditing = false, initialValueForm = in
                         loading={loading}
                         loadingPosition='end'
                         variant='contained'
-                        onClick={onClose}
                         endIcon={<SaveIcon/>}>
                         {isEditing ? 'Edit' : 'Add'}
                     </Button>

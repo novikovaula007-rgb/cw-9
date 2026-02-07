@@ -28,10 +28,12 @@ export const fetchAllCategories = createAsyncThunk<ICategory[]>(
         if (!categoriesObject) {
             return []
         } else {
-            return Object.keys(categoriesObject).map(key => ({
+            const categoriesArray = Object.keys(categoriesObject).map(key => ({
                 ...categoriesObject[key],
                 id: key,
             }));
+            categoriesArray.reverse()
+            return categoriesArray;
         }
     }
 )
