@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import type {ITransaction, ITransactionAPI} from '../../types';
 import {axiosAPI} from '../../axiosAPI.ts';
-import type {AppDispatch} from "../store/store.ts";
+import type {AppDispatch, RootState} from "../store/store.ts";
 import {toast} from "react-toastify";
 
 interface TransactionsState {
@@ -67,5 +67,8 @@ const transactionsSlice = createSlice({
         });
     },
 });
+
+export const selectAllTransactions = (state: RootState) => state.transactions.items;
+export const selectTransactionsLoading = (state: RootState) => state.transactions.loading;
 
 export const transactionsReducer = transactionsSlice.reducer;
