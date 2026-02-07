@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import type {ICategory, ICategoryAPI} from "../../types";
 import type {AppDispatch, RootState} from "../store/store.ts";
 import {axiosAPI} from "../../axiosAPI.ts";
+import {toast} from "react-toastify";
 
 interface categoriesState {
     categories: ICategory[],
@@ -41,7 +42,8 @@ export const fetchAllCategories = createAsyncThunk<ICategory[]>(
 export const deleteCategoryById = createAsyncThunk<void, string, {dispatch: AppDispatch}>(
     'categories/deleteCategoryById',
     async (id, thunkAPI) => {
-        await axiosAPI.delete(`/categories/${id}.json`);
+        await axiosAPI.delete(`categories/${id}.json`);
+        toast.success('Category deleted successfully')
         await thunkAPI.dispatch(fetchAllCategories());
     }
 );
