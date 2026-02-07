@@ -9,7 +9,7 @@ const App = () => {
   return (
       <>
         <NavBar/>
-        <Container sx={{margin: '90px auto'}} maxWidth={"sm"}>
+        <Container sx={{margin: '30px auto'}} maxWidth={"sm"}>
           <Routes>
             <Route path='/' element={(<Transactions/>)}/>
             <Route path='/transactions' element={(<Transactions/>)}/>
